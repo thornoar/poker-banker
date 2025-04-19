@@ -16,7 +16,8 @@ int main ()
 {
     int number_of_players;
     printf("| Enter the number of players:\n> \e[34m"); //]
-    scanf("%d", &number_of_players);
+    if (scanf("%d", &number_of_players) == EOF)
+        exit(0);
     printf("\e[0m"); //]
 
     char players[number_of_players][16];
@@ -27,13 +28,15 @@ int main ()
 
     int base_budget;
     printf("| Enter the initial budget of all players:\n> \e[34m"); //]
-    scanf("%d", &base_budget);
+    if (scanf("%d", &base_budget) == EOF)
+        exit(0);
     printf("\e[0m"); //]
     int budgets[number_of_players];
 
     int base_bet;
     printf("| Enter the initial bet of all players:\n> \e[34m"); //]
-    scanf("%d", &base_bet);
+    if (scanf("%d", &base_bet) == EOF)
+        exit(0);
     printf("\e[0m"); //]
     int bets[number_of_players];
 
@@ -59,14 +62,17 @@ int main ()
         system("clear");
         printf("| Current table configuration:\n");
         printf("+");
-        for (int i = 0; i < 46; i++) { printf("-"); }
+        for (int i = 0; i < 48; i++) { printf("-"); }
         printf("+");
         printf("\n");
         char base_color[] = "\e[34m"; // ]
         char current_color[] = "\e[35m"; // ]
         for (int i = 0; i < number_of_players; i++) {
             printf(
-                "| no.%1$s%2$d\e[0m | %1$s",
+                (i == cp) ? "| > " : "|   "
+            );
+            printf(
+                "no.%1$s%2$d\e[0m | %1$s",
                 (i == cp) ? current_color : base_color,
                 i
             ); // ]
@@ -88,7 +94,7 @@ int main ()
             printf("\n");
         }
         printf("+");
-        for (int i = 0; i < 46; i++) { printf("-"); }
+        for (int i = 0; i < 48; i++) { printf("-"); }
         printf("+");
         printf("\n");
 
@@ -105,7 +111,9 @@ round:
         printf("> \e[34m"); // ]
 
         char action[16];
-        scanf("%s", action); printf("\e[0m"); // ]
+        if (scanf("%s", action) == EOF)
+            exit(0);
+        printf("\e[0m"); // ]
         if (strcmp(action, "fold") == 0) { goto fold; }
         if (strcmp(action, "bet") == 0) { goto bet; }
         if (strcmp(action, "raise") == 0) { goto raise; }
